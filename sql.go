@@ -48,8 +48,9 @@ func (sql *Sql) addData(data *Data) {
 
 func (sql *Sql) GetSQL() string {
 	var statements []string
+	var data = sql.GetData()
 
-	for _, item := range sql.GetData() {
+	for _, item := range data {
 		statements = append(statements, item.getStatement())
 	}
 
@@ -58,8 +59,9 @@ func (sql *Sql) GetSQL() string {
 
 func (sql *Sql) GetValues() []interface{} {
 	var values []interface{}
+	var data = sql.GetData()
 
-	for _, item := range sql.GetData() {
+	for _, item := range data {
 		values = append(values, item.getValues()...)
 	}
 
