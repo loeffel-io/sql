@@ -5,6 +5,7 @@ import "sync"
 type Data struct {
 	Statement string
 	Values    []interface{}
+	Category  string
 	*sync.RWMutex
 }
 
@@ -20,4 +21,11 @@ func (data *Data) getValues() []interface{} {
 	defer data.RUnlock()
 
 	return data.Values
+}
+
+func (data *Data) getCategory() string {
+	data.RLock()
+	defer data.RUnlock()
+
+	return data.Category
 }
