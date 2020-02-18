@@ -1,23 +1,22 @@
 package sql
 
 import (
-	"strings"
 	"sync"
 )
 
 type Sql struct {
-	data []string
+	data []*Data
 	*sync.RWMutex
 }
 
 func Create() *Sql {
 	return &Sql{
-		data:    nil,
+		data:    make([]*Data, 0),
 		RWMutex: new(sync.RWMutex),
 	}
 }
 
-func (sql *Sql) Add(statement string, pass bool) {
+func (sql *Sql) Add(statement string, pass bool, values ...interface{}) {
 	sql.Lock()
 	defer sql.Unlock()
 
@@ -25,16 +24,23 @@ func (sql *Sql) Add(statement string, pass bool) {
 		return
 	}
 
-	sql.data = append(sql.data, statement)
+	sql.AddData(&Data{
+		Statement: statement,
+		Values:    values,
+		RWMutex:   new(sync.RWMutex),
+	})
 }
 
-func (sql *Sql) GetData() []string {
+func (sql *Sql) GetData() []*Data {
 	sql.RLock()
 	defer sql.RUnlock()
 
 	return sql.data
 }
 
-func (sql *Sql) ToString() string {
-	return strings.Join(sql.GetData(), " ")
+func (sql *Sql) AddData(data *Data) {
+	sql.Lock()
+	defer sql.Unlock()
+
+	sql.data = append(sql.data, data)
 }
