@@ -106,9 +106,7 @@ func (sql *Sql) GetValues() []interface{} {
 				continue
 			}
 
-			for _, value := range data.getValues() {
-				values = append(values, value)
-			}
+			values = append(values, data.getValues()...)
 		}
 	}
 
@@ -116,7 +114,7 @@ func (sql *Sql) GetValues() []interface{} {
 }
 
 func (sql *Sql) Select(pass bool, statement string, values ...interface{}) *Sql {
-	if pass == false {
+	if !pass {
 		return sql
 	}
 
@@ -124,7 +122,7 @@ func (sql *Sql) Select(pass bool, statement string, values ...interface{}) *Sql 
 }
 
 func (sql *Sql) From(pass bool, statement string, values ...interface{}) *Sql {
-	if pass == false {
+	if !pass {
 		return sql
 	}
 
@@ -132,7 +130,7 @@ func (sql *Sql) From(pass bool, statement string, values ...interface{}) *Sql {
 }
 
 func (sql *Sql) Join(pass bool, statement string, values ...interface{}) *Sql {
-	if pass == false {
+	if !pass {
 		return sql
 	}
 
@@ -140,7 +138,7 @@ func (sql *Sql) Join(pass bool, statement string, values ...interface{}) *Sql {
 }
 
 func (sql *Sql) Where(pass bool, statement string, values ...interface{}) *Sql {
-	if pass == false {
+	if !pass {
 		return sql
 	}
 
@@ -148,7 +146,7 @@ func (sql *Sql) Where(pass bool, statement string, values ...interface{}) *Sql {
 }
 
 func (sql *Sql) GroupBy(pass bool, statement string, values ...interface{}) *Sql {
-	if pass == false {
+	if !pass {
 		return sql
 	}
 
