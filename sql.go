@@ -16,7 +16,7 @@ func Create() *Sql {
 	}
 }
 
-func (sql *Sql) Add(statement string, pass bool, values ...interface{}) {
+func (sql *Sql) Add(pass bool, statement string, values ...interface{}) {
 	sql.Lock()
 	defer sql.Unlock()
 
