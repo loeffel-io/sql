@@ -10,11 +10,13 @@
 ```go
 subquery := sql.Create().
     Select(true, "purchases.*").
+    Select(true, "...").
     From(true, "purchases").
     Join(true, "transactions ON transactions.purchase_id=purchases.id")
 
 query := sql.Create().Select(true, "*").
-    From(true, "(?) purchases", gorm.Expr(subquery.GetSQL(), subquery.GetValues()...))
+    From(true, "(?) purchases", gorm.Expr(subquery.GetSQL(), subquery.GetValues()...)).
+    Join(true, "transactions ON transactions.id=purchases.last_transaction_id")
 
 db.
     Raw(query.GetSQL(), query.GetValues()...).
