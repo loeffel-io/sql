@@ -1,5 +1,7 @@
 # SQL Query Builder - ORM Wrapper
 
+[![Build Status](http://ci.loeffel.io/api/badges/loeffel-io/sql/status.svg)](http://ci.loeffel.io/loeffel-io/sql)
+
 - Full flexibility
 - Zero third-party dependencies
 - Useable by any ORM
