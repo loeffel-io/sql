@@ -25,7 +25,7 @@ func (sql *Sql) Add(pass bool, statement string, values ...interface{}) {
 		return
 	}
 
-	sql.addData(&Data{
+	sql.data = append(sql.data, &Data{
 		Statement: statement,
 		Values:    values,
 		RWMutex:   new(sync.RWMutex),
@@ -39,18 +39,10 @@ func (sql *Sql) GetData() []*Data {
 	return sql.data
 }
 
-func (sql *Sql) addData(data *Data) {
-	sql.Lock()
-	defer sql.Unlock()
-
-	sql.data = append(sql.data, data)
-}
-
 func (sql *Sql) GetSQL() string {
 	var statements []string
-	var data = sql.GetData()
 
-	for _, item := range data {
+	for _, item := range sql.GetData() {
 		statements = append(statements, item.getStatement())
 	}
 
@@ -59,9 +51,8 @@ func (sql *Sql) GetSQL() string {
 
 func (sql *Sql) GetValues() []interface{} {
 	var values []interface{}
-	var data = sql.GetData()
 
-	for _, item := range data {
+	for _, item := range sql.GetData() {
 		values = append(values, item.getValues()...)
 	}
 
