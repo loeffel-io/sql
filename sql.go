@@ -78,6 +78,8 @@ func (sql *Sql) GetSQL() string {
 			}
 
 			switch data.getCategory() {
+			case Where:
+				statements = append(statements, data.getStatement())
 			case Join:
 				statements = append(statements, data.getCategory())
 				statements = append(statements, data.getStatement())
