@@ -6,7 +6,7 @@
 - Full flexibility
 - Zero third-party dependencies
 - Useable by any ORM
-- Support for Select, From, Join, Where, OrderBy
+- Support for Select, From, Join, Left Join, Where, OrderBy
 
 ### [Gorm](https://github.com/jinzhu/gorm) Usage
 
