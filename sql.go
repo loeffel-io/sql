@@ -7,11 +7,12 @@ import (
 )
 
 const (
-	Select  = "select"
-	From    = "from"
-	Join    = "join"
-	Where   = "where"
-	GroupBy = "group by"
+	Select   = "select"
+	From     = "from"
+	Join     = "join"
+	LeftJoin = "left join"
+	Where    = "where"
+	GroupBy  = "group by"
 )
 
 type Sql struct {
@@ -52,6 +53,7 @@ func (sql *Sql) groupOrder() []string {
 		Select,
 		From,
 		Join,
+		LeftJoin,
 		Where,
 		GroupBy,
 	}
@@ -80,7 +82,7 @@ func (sql *Sql) GetSQL() string {
 			switch data.getCategory() {
 			case Where:
 				statements = append(statements, fmt.Sprintf("AND %s", data.getStatement()))
-			case Join:
+			case Join, LeftJoin:
 				statements = append(statements, data.getCategory())
 				statements = append(statements, data.getStatement())
 			case Select, From, GroupBy:
@@ -135,6 +137,14 @@ func (sql *Sql) Join(pass bool, statement string, values ...interface{}) *Sql {
 	}
 
 	return sql.add(pass, Join, statement, values)
+}
+
+func (sql *Sql) LeftJoin(pass bool, statement string, values ...interface{}) *Sql {
+	if !pass {
+		return sql
+	}
+
+	return sql.add(pass, LeftJoin, statement, values)
 }
 
 func (sql *Sql) Where(pass bool, statement string, values ...interface{}) *Sql {
