@@ -48,6 +48,14 @@ func (sql *Sql) GetData() map[string][]*Data {
 	return sql.data
 }
 
+func (sql *Sql) GetDataCategory(category string) []*Data {
+	if data, exists := sql.GetData()[category]; exists {
+		return data
+	}
+
+	return nil
+}
+
 func (sql *Sql) groupOrder() []string {
 	return []string{
 		Select,
